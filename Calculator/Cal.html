@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Adjustable Calculator</title>
+  <style>
+    * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle, #121212, #000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .calculator {
+      background: rgba(40,40,40,0.9);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 30px #0ff5;
+      width: 90vw; max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      transform: perspective(800px) rotateX(5deg);
+    }
+    .display {
+      height: 70px;
+      background: #111;
+      color: #0ff;
+      font-size: 2rem;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: right;
+      overflow-x: auto;
+      box-shadow: inset 0 0 10px #0ff3;
+      margin-bottom: 15px;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(60px, auto);
+      gap: 12px;
+    }
+    button {
+      border: none;
+      font-size: 1.5rem;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #222, #000);
+      color: #fff;
+      box-shadow: 4px 4px 10px #000, -4px -4px 10px #333;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #0ff;
+      color: #000;
+      box-shadow: 0 0 15px #0ff;
+    }
+    button:active {
+      transform: scale(0.98);
+      box-shadow: inset 2px 2px 5px #000;
+    }
+    .equal {
+      grid-column: span 2;
+      background: linear-gradient(135deg, #0ff, #09f);
+      color: #000;
+      font-weight: bold;
+    }
+    .clear {
+      background: #f00;
+      color: #fff;
+    }
+    .clear:hover {
+      background: #ff5555;
+    }
+    @media (max-width: 400px) {
+      .calculator {
+        transform: none;
+        box-shadow: 0 0 15px #0ff;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button onclick="press('(')">(</button>
+      <button onclick="press(')')">)</button>
+      <button onclick="press('/')">÷</button>
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button onclick="press('*')">×</button>
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button onclick="press('-')">−</button>
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button onclick="press('+')">+</button>
+      <button onclick="press('0')">0</button>
+      <button onclick="press('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+    function press(val) {
+      display.textContent = display.textContent === "0" ? val : display.textContent + val;
+    }
+    function calculate() {
+      try {
+        display.textContent = eval(display.textContent.replace(/÷/g, "/").replace(/×/g, "*"));
+      } catch {
+        display.textContent = "Error";
+      }
+    }
+    function clearDisplay() {
+      display.textContent = "0";
+    }
+  </script>
+</body>
+</html>
